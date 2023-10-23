@@ -1,0 +1,32 @@
+#!/bin/bash
+#信号处理
+trap "echo goodbye..." EXIT
+trap "echo 'Sorry, I hava trapped ctrl-C'" SIGINT
+
+count=1
+while [ $count -le 3 ]
+do
+	echo "loop #$count"
+	sleep 2
+	count=$[$count + 1]
+done
+
+trap "echo modified ctrl-C" SIGINT
+
+count=1
+while [ $count -le 3 ]
+do
+	echo "loop #$count"
+	sleep 2
+	count=$[$count + 1]
+done
+
+trap -- SIGINT
+
+count=1
+while [ $count -le 3 ]
+do
+	echo "loop #$count"
+	sleep 2
+	count=$[$count + 1]
+done

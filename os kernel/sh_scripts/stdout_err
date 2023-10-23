@@ -1,0 +1,4 @@
+ls: cannot access 'badfile': No such file or directory
+ls: cannot access 'ccc': No such file or directory
+file_loop.sh
+local_variables

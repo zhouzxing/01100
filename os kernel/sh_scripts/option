@@ -1,0 +1,50 @@
+#!/bin/bash
+
+#getopt | getopts
+#程序option一开始设计是清晰的
+
+echo "getopts"
+while getopts :ab:c opt
+do
+	case "$opt" in
+		a) echo "option -a" ;;
+		b) echo "option -b, with value $OPTARG" ;;
+		c) echo "option -c" ;;
+		*) echo "Unknown option: $opt";;
+	esac
+done
+shift $[ $OPTIND - 1 ]
+for operand in "$@"
+do
+	echo "operand: $operand"
+done
+
+echo "getopt set -- 更改命令行参数"
+set -- $(getopt -q ab:c "$@")
+
+while [ -n "$1" ]
+do
+	case "$1" in
+		-a) echo "option -a" ;;
+		-b)
+		       	para="$2"
+			echo "option -b, with value $para" 
+	 		shift ;;
+		--)
+			shift
+			break ;;
+		-c) echo "option -c" ;;
+		*) echo "Unknown option: '$1'" ;;
+	esac
+	shift
+done
+
+#查找命令行选项
+while [ -n "$1" ]
+do
+	case "$1" in
+		-*) echo "option: $1" ;;
+		*) echo "operand: $1" ;;
+	esac
+	shift
+done

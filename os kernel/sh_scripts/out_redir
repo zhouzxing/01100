@@ -1,0 +1,31 @@
+#!/bin/bash
+#输出重定向
+
+#general usage
+#echo "stderr redirec show" >&2
+#echo "stdout redirec show" >&1
+
+
+#exec
+exec 1> fstdout
+echo "exec out to show"
+
+exec 2> fstderr
+echo "exec err to show" >&2
+
+#redir in
+exec 0< fstdout
+exec 1> stderr 
+count=1
+while read line
+do
+	echo "#$count line: $line"
+	count=$[ $count + 1 ]
+done
+
+#输入输出
+exec 3<> stdout
+read line <&3
+echo $line
+echo "exec err to show" >&3
+
